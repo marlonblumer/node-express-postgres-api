@@ -1,5 +1,6 @@
 const { validateEnvProvidedConfig } = require("../config");
 const { AppHttpServer } = require("../http-server");
+const { postgres } = require("../db");
 const { logger } = require("../logger");
 
 class AppStarter {
@@ -12,6 +13,7 @@ class AppStarter {
 
     console.log("All services for applications");
 
+    await postgres.connect();
     await AppHttpServer.start();
 
     console.log("All services started for application");

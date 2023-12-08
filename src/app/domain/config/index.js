@@ -8,10 +8,25 @@ const config = {
   EXPRESS_PORT: parseInt(process.env.EXPRESS_PORT, 10),
   SECRET: process.env.SECRET,
   API_URL: process.env.API_URL,
+  POSTGRES_PORT: process.env.POSTGRES_PORT,
+  POSTGRES_HOST: process.env.POSTGRES_HOST,
+  POSTGRES_USER: process.env.POSTGRES_USER,
+  POSTGRES_DB: process.env.POSTGRES_DB,
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
 };
 
 function validateEnvProvidedConfig() {
-  const requiredConfigVariables = ["ENV", "EXPRESS_PORT", "SECRET", "API_URL"];
+  const requiredConfigVariables = [
+    "ENV",
+    "EXPRESS_PORT",
+    "SECRET",
+    "API_URL",
+    "POSTGRES_HOST",
+    "POSTGRES_PORT",
+    "POSTGRES_USER",
+    "POSTGRES_DB",
+    "POSTGRES_PASSWORD",
+  ];
 
   const missingConfigVariables = [];
 
