@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const { logger } = require("../logger");
 
 dotenv.config();
 
@@ -21,10 +22,10 @@ function validateEnvProvidedConfig() {
   }
 
   if (missingConfigVariables.length !== 0) {
-    console.log("Missing environment variables in config");
+    logger.error("Missing environment variables in config");
 
     for (const missingConfigVariable of missingConfigVariables) {
-      console.log(`Missing variable: ${missingConfigVariable}`);
+      logger.error(`Missing variable: ${missingConfigVariable}`);
     }
 
     process.exit(1);
