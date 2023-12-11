@@ -1,4 +1,5 @@
 const { UserStore } = require("./store");
+const { generateUser } = require("../test-utils/user");
 
 jest.mock("../db");
 
@@ -9,12 +10,7 @@ beforeEach(() => {
 describe("UserStore", () => {
   describe("insertUser", () => {
     test("Calls query with the correct parameters in the expected order", async () => {
-      const user = {
-        firstName: "John",
-        lastName: "Smith",
-        email: "john@teste.com",
-        password: "123456",
-      };
+      const user = generateUser();
 
       const dbSendMock =
         require("../db").postgres.client.query.mockResolvedValue({
@@ -34,6 +30,25 @@ describe("UserStore", () => {
       expect(functionInputs[1][2]).toEqual(user.email);
       expect(functionInputs[1][3]).toEqual(user.password);
 
+      expect(res).toEqual(user);
+      expect(require("../db").postgres.client.query).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getUserByEmail", () => {
+    test("Calls query with the correct parameters", async () => {
+      const user = generateUser();
+
+      const dbSendMock =
+        require("../db").postgres.client.query.mockResolvedValue({
+          rows: [user],
+        });
+
+      const res = await UserStore.getUserByEmail(user.email);
+
+      const functionInputs = dbSendMock.mock.calls[0];
+      expect(functionInputs[0]).toEqual("SELECT * FROM users WHERE email = $1");
+      expect(functionInputs[1][0]).toEqual(user.email);
       expect(res).toEqual(user);
       expect(require("../db").postgres.client.query).toHaveBeenCalledTimes(1);
     });

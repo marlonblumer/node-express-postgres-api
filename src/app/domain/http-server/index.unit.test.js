@@ -1,6 +1,10 @@
 const httpServer = require(".");
 const { AppHttpServer } = require(".");
 
+jest.mock("../user/routes", () => ({
+  userRouter: jest.fn(),
+}));
+
 const express = () => {
   return {
     use: jest.fn(),
