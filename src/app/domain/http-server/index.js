@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const { config } = require("../config");
 const { logger } = require("../logger");
+const {
+  httpErrorResponseHandler,
+} = require("../middleware/http-error-response-handler");
 const { userRouter } = require("../user/routes");
 
 class AppHttpServerFactory {
@@ -16,12 +19,17 @@ class AppHttpServerFactory {
 
       app.use("/", userRouter);
 
+      app.use(httpErrorResponseHandler);
+
       app.listen(this.port, () => {
         logger.info(`HTTP Server started on port ${this.port}`);
+
         resolve();
       });
     });
   }
 }
 
-module.exports = { AppHttpServer: new AppHttpServerFactory() };
+module.exports = {
+  AppHttpServer: new AppHttpServerFactory(),
+};

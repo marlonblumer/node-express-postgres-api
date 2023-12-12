@@ -9,14 +9,12 @@ class AppStarter {
 
     validateEnvProvidedConfig();
 
-    console.log("Starting services for application");
-
-    console.log("All services for applications");
+    logger.info("Starting services for application");
 
     await postgres.connect();
     await AppHttpServer.start();
 
-    console.log("All services started for application");
+    logger.info("All services started for application");
   }
 }
 

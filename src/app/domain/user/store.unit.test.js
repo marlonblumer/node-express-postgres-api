@@ -47,8 +47,11 @@ describe("UserStore", () => {
       const res = await UserStore.getUserByEmail(user.email);
 
       const functionInputs = dbSendMock.mock.calls[0];
+
       expect(functionInputs[0]).toEqual("SELECT * FROM users WHERE email = $1");
+
       expect(functionInputs[1][0]).toEqual(user.email);
+
       expect(res).toEqual(user);
       expect(require("../db").postgres.client.query).toHaveBeenCalledTimes(1);
     });

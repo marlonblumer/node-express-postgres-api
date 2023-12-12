@@ -1,15 +1,15 @@
 const { config } = require("../config");
-const { client, Client } = require("pg");
+const { Client } = require("pg");
 const { logger } = require("../logger");
 
-class PostgressDBFactory {
+class PostgresDBFactory {
   client;
   isConnected = false;
 
   constructor() {
     this.client = new Client({
       user: config.POSTGRES_USER,
-      database: config.POSTGRES_DB,
+      database: config.POSTGRES_DATABASE,
       password: config.POSTGRES_PASSWORD,
       port: config.POSTGRES_PORT,
       host: config.POSTGRES_HOST,
@@ -28,11 +28,11 @@ class PostgressDBFactory {
     if (this.isConnected) {
       await this.client.end();
       this.isConnected = false;
-      logger.info("DB Connection close");
+      logger.info("DB Connection closed");
     }
   }
 }
 
 module.exports = {
-  postgres: new PostgressDBFactory(),
+  postgres: new PostgresDBFactory(),
 };
